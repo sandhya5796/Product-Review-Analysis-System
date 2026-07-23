@@ -83,11 +83,6 @@ Product-Review-Analysis-System
 │      ├── images/
 │      └── js/
 │
-├── screenshots/
-│      ├── home.png
-│      ├── review.png
-│      ├── prediction.png
-│      └── recommendation.png
 │
 └── README.md
 ```
@@ -198,57 +193,6 @@ Or use the deployed application:
 
 ---
 
-# 📸 Screenshots
-
-## 🏠 Home Page
-
-> Add a screenshot of your application's home page.
-
-```
-screenshots/home.png
-```
-
----
-
-## ✍️ Review Input
-
-> Add a screenshot showing the review input section.
-
-```
-screenshots/review.png
-```
-
----
-
-## 😊 Sentiment Prediction
-
-> Add a screenshot showing the predicted sentiment.
-
-```
-screenshots/prediction.png
-```
-
----
-
-## 🎯 Product Recommendation
-
-> Add a screenshot displaying the recommended products.
-
-```
-screenshots/recommendation.png
-```
-
-After adding screenshots, display them like this:
-
-```markdown
-![Home Page](screenshots/home.png)
-
-![Review Input](screenshots/review.png)
-
-![Prediction](screenshots/prediction.png)
-
-![Recommendation](screenshots/recommendation.png)
-```
 
 ---
 
