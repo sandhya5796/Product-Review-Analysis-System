@@ -167,33 +167,6 @@ Recommended Products
 ```
 
 ---
-
-## 📸 Screenshots
-
-### 🏠 Home Page
-
-![Home Page](screenshots/home.png)
-
----
-
-### ✍️ Review Input
-
-![Review Input](screenshots/input.png)
-
----
-
-### 😊 Sentiment Prediction
-
-![Prediction](screenshots/prediction.png)
-
----
-
-### 🎯 Product Recommendation
-
-![Recommendation](screenshots/recommendation.png)
-
----
-
 ## 📈 Model Details
 
 | Model | Purpose |
