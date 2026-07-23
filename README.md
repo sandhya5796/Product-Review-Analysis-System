@@ -1,46 +1,60 @@
 # 🛍️ Product Review Analysis & Smart Recommendation System
 
-## 📌 Project Overview
+An AI-powered web application that analyzes customer reviews, predicts their sentiment, and recommends relevant products using Machine Learning and Natural Language Processing (NLP).
 
-The **Product Review Analysis & Smart Recommendation System** is an AI-powered web application that analyzes customer reviews, predicts their sentiment, and recommends relevant products based on review similarity.
+🌐 **Live Demo:** https://sandhya57.pythonanywhere.com/
 
-This project combines **Machine Learning**, **Natural Language Processing (NLP)**, and **Flask** to help users make informed purchasing decisions. Customer reviews are classified into **Positive**, **Neutral**, or **Negative** sentiments using a Support Vector Machine (SVM) model, while a recommendation engine suggests similar products using TF-IDF vectorization and Cosine Similarity.
-
----
-
-## ✨ Features
-
-- 🔍 Analyze customer product reviews
-- 😊 Predict sentiment (Positive, Neutral, Negative)
-- 🤖 Smart product recommendation system
-- 📊 Machine Learning-based sentiment analysis
-- ⚡ Fast and accurate predictions
-- 🌐 User-friendly Flask web interface
-- 📱 Responsive and modern UI
-- 💬 Real-time review analysis
+💻 **GitHub Repository:** https://github.com/sandhya5796/Product-Review-Analysis-System
 
 ---
 
-## 🛠️ Tech Stack
+# 📌 Project Overview
 
-### Programming Language
+The **Product Review Analysis & Smart Recommendation System** is a Flask-based web application that helps users understand customer opinions and discover relevant products.
+
+The application uses **Support Vector Machine (SVM)** for sentiment classification and **TF-IDF with Cosine Similarity** for product recommendations.
+
+Users can enter a product review, and the application predicts whether the sentiment is **Positive**, **Neutral**, or **Negative** while suggesting similar products based on review content.
+
+---
+
+# ✨ Features
+
+- 🔍 Customer Review Sentiment Analysis
+- 😊 Sentiment Prediction (Positive, Neutral, Negative)
+- 🤖 Smart Product Recommendation System
+- 📊 Machine Learning-based Prediction
+- ⚡ Fast Review Processing
+- 🌐 Flask Web Application
+- 📱 Responsive User Interface
+- 🎯 Personalized Product Suggestions
+
+---
+
+# 🛠️ Tech Stack
+
+## Programming Language
+
 - Python
 
-### Machine Learning & NLP
+## Machine Learning
+
 - Scikit-learn
 - Support Vector Machine (SVM)
-- TF-IDF Vectorization
+- TF-IDF Vectorizer
 - Cosine Similarity
 - Pandas
 - NumPy
 
-### Web Development
+## Web Development
+
 - Flask
 - HTML5
 - CSS3
 - JavaScript
 
-### Tools
+## Tools
+
 - Git
 - GitHub
 - VS Code
@@ -49,202 +63,285 @@ This project combines **Machine Learning**, **Natural Language Processing (NLP)*
 
 ---
 
-## 📂 Project Structure
+# 📂 Project Structure
 
 ```
-Product-Review-Analysis-System/
+Product-Review-Analysis-System
 │
 ├── flask_app.py
 ├── requirements.txt
-├── productttt.csv
+├── producttttt.csv
 ├── svm_sentiment_modellll.pkl
 ├── tfidf_vectorizerrrr.pkl
 ├── recommendtf.pkl
 │
 ├── templates/
-│   └── pred.html
+│      └── pred.html
 │
 ├── static/
-│   ├── css/
-│   ├── images/
-│   └── js/
+│      ├── css/
+│      ├── images/
+│      └── js/
 │
 ├── screenshots/
-│   ├── home.png
-│   ├── input.png
-│   ├── prediction.png
-│   └── recommendation.png
+│      ├── home.png
+│      ├── review.png
+│      ├── prediction.png
+│      └── recommendation.png
 │
 └── README.md
 ```
 
 ---
 
-## ⚙️ Installation
+# ⚙️ Installation
 
-### 1️⃣ Clone the Repository
+## 1. Clone the Repository
 
 ```bash
-git clone https://github.com/yourusername/Product-Review-Analysis-System.git
+git clone https://github.com/sandhya5796/Product-Review-Analysis-System.git
 ```
 
-### 2️⃣ Navigate to the Project Folder
+---
+
+## 2. Navigate to the Project Folder
 
 ```bash
 cd Product-Review-Analysis-System
 ```
 
-### 3️⃣ Create a Virtual Environment (Optional)
+---
+
+## 3. Create a Virtual Environment (Optional)
 
 ```bash
 python -m venv venv
 ```
 
-### 4️⃣ Activate the Virtual Environment
+---
 
-**Windows**
+## 4. Activate the Virtual Environment
+
+### Windows
 
 ```bash
 venv\Scripts\activate
 ```
 
-**Linux / macOS**
+### Linux / macOS
 
 ```bash
 source venv/bin/activate
 ```
 
-### 5️⃣ Install Dependencies
+---
+
+## 5. Install Required Libraries
 
 ```bash
 pip install -r requirements.txt
 ```
 
-### 6️⃣ Run the Application
+---
+
+## 6. Run the Flask Application
 
 ```bash
 python flask_app.py
 ```
 
-### 7️⃣ Open in Browser
+---
+
+## 7. Open in Browser
 
 ```
 http://127.0.0.1:5000
 ```
 
+Or use the deployed application:
+
+**https://sandhya57.pythonanywhere.com/**
+
 ---
 
-## 🚀 How It Works
+# 🚀 How It Works
 
 1. User enters a product review.
 2. The review is cleaned and preprocessed.
-3. TF-IDF converts the review into numerical features.
+3. TF-IDF converts the text into numerical features.
 4. The trained SVM model predicts the sentiment.
-5. Cosine Similarity identifies similar products.
+5. Cosine Similarity identifies products with similar reviews.
 6. The application displays personalized product recommendations.
 
 ---
 
-## 📊 Machine Learning Workflow
+# 📊 Machine Learning Workflow
 
 ```
-User Review
-      │
-      ▼
-Text Preprocessing
-      │
-      ▼
-TF-IDF Vectorization
-      │
-      ▼
-SVM Sentiment Prediction
-      │
-      ▼
-Cosine Similarity
-      │
-      ▼
-Recommended Products
+                User Review
+                     │
+                     ▼
+          Text Preprocessing
+                     │
+                     ▼
+        TF-IDF Vectorization
+                     │
+                     ▼
+      SVM Sentiment Classification
+                     │
+                     ▼
+          Cosine Similarity
+                     │
+                     ▼
+      Recommended Products
 ```
 
 ---
-## 📈 Model Details
+
+# 📸 Screenshots
+
+## 🏠 Home Page
+
+> Add a screenshot of your application's home page.
+
+```
+screenshots/home.png
+```
+
+---
+
+## ✍️ Review Input
+
+> Add a screenshot showing the review input section.
+
+```
+screenshots/review.png
+```
+
+---
+
+## 😊 Sentiment Prediction
+
+> Add a screenshot showing the predicted sentiment.
+
+```
+screenshots/prediction.png
+```
+
+---
+
+## 🎯 Product Recommendation
+
+> Add a screenshot displaying the recommended products.
+
+```
+screenshots/recommendation.png
+```
+
+After adding screenshots, display them like this:
+
+```markdown
+![Home Page](screenshots/home.png)
+
+![Review Input](screenshots/review.png)
+
+![Prediction](screenshots/prediction.png)
+
+![Recommendation](screenshots/recommendation.png)
+```
+
+---
+
+# 📈 Model Information
 
 | Model | Purpose |
-|--------|---------|
+|-------|---------|
 | Support Vector Machine (SVM) | Sentiment Classification |
-| TF-IDF Vectorizer | Text Feature Extraction |
+| TF-IDF | Feature Extraction |
 | Cosine Similarity | Product Recommendation |
 
 ---
 
-## 🎯 Skills Demonstrated
+# 🎯 Skills Demonstrated
 
 - Python Programming
 - Machine Learning
 - Natural Language Processing (NLP)
 - Flask Web Development
-- HTML & CSS
+- HTML5 & CSS3
+- JavaScript
+- REST API Development
 - Data Preprocessing
 - Feature Engineering
-- REST API Development
 - Git & GitHub
-- Debugging & Testing
 - Software Development
+- Debugging
 - Problem Solving
 
 ---
 
-## 🚀 Future Improvements
+# 🚀 Future Improvements
 
 - User Authentication
 - Database Integration (MySQL)
+- Admin Dashboard
 - Advanced Recommendation Algorithms
 - BERT-based Sentiment Analysis
+- Cloud Deployment using AWS/Render
 - Real-time Product Reviews
-- Cloud Deployment (Render/AWS)
-- Admin Dashboard
+- Product Search Functionality
+- Shopping Cart Integration
 - Multilingual Review Support
 
 ---
 
-## 📚 Dataset
+# 📚 Dataset
 
-The project uses the **Women's E-Commerce Clothing Reviews** dataset from Kaggle for training and evaluation.
+This project is developed using the **Women's E-Commerce Clothing Reviews** dataset from Kaggle.
 
 ---
 
-## 🤝 Contributing
+# 🤝 Contributing
 
-Contributions, suggestions, and improvements are welcome.
+Contributions are welcome.
 
 1. Fork the repository.
 2. Create a new feature branch.
 3. Commit your changes.
-4. Push to your branch.
-5. Open a Pull Request.
+4. Push the branch.
+5. Create a Pull Request.
 
 ---
 
-## 👩‍💻 Author
+# 👩‍💻 Author
 
 **Eedupuganti Divya Sai Sandhya**
 
-📧 Email: your-email@example.com
+🎓 B.Tech – Computer Science and Engineering (IoT & Cyber Security including Blockchain)
 
-💼 LinkedIn: https://linkedin.com/in/your-linkedin-profile
+🏫 Sasi Institute of Technology and Engineering
 
-💻 GitHub: https://github.com/your-github-username
+💼 LinkedIn:
+https://www.linkedin.com/in/your-linkedin-profile
+
+💻 GitHub:
+https://github.com/sandhya5796
+
+🌐 Live Demo:
+https://sandhya57.pythonanywhere.com/
 
 ---
 
-## ⭐ Support
+# ⭐ Show Your Support
 
-If you found this project useful, consider giving it a ⭐ on GitHub.
+If you found this project useful, please consider giving it a ⭐ on GitHub.
 
-It motivates me to build and share more projects!
+Your support motivates me to build and share more projects.
 
 ---
 
-## 📄 License
+# 📄 License
 
-This project is licensed under the MIT License.
+This project is licensed under the **MIT License**.
+
+Feel free to use, modify, and distribute this project for educational and learning purposes.
