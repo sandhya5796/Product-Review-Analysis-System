@@ -1,0 +1,748 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>SmartShop AI — Review Analysis & Recommendations</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
+<style>
+
+:root{
+  --ink:#0f172a;
+  --ink-soft:#64748b;
+  --paper:#f8fafc;
+  --card:#ffffff;
+  --line:#e2e8f0;
+  --primary:#4f46e5;
+  --primary-dark:#4338ca;
+  --primary-soft:#eef2ff;
+  --success:#16a34a;
+  --success-soft:#dcfce7;
+  --danger:#dc2626;
+  --danger-soft:#fee2e2;
+  --neutral-soft:#f1f5f9;
+
+  --coral:#dc2626;
+  --coral-dark:#b91c1c;
+  --teal:#16a34a;
+  --teal-soft:#dcfce7;
+  --crimson:#dc2626;
+  --crimson-soft:#fee2e2;
+  --signal:#4f46e5;
+  --signal-dark:#4338ca;
+  --signal-soft:#eef2ff;
+}
+
+*{ margin:0; padding:0; box-sizing:border-box; }
+
+body{
+  background:var(--card);
+  color:var(--ink);
+  font-family:'Inter',sans-serif;
+  line-height:1.55;
+}
+
+.mono{ font-family:'JetBrains Mono',monospace; }
+
+a{ color:inherit; }
+
+html{ scroll-behavior:smooth; }
+
+/* NAV */
+nav{
+  background:var(--card);
+  padding:18px 60px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  color:var(--ink);
+  position:sticky;
+  top:0;
+  z-index:50;
+  border-bottom:1px solid var(--line);
+}
+section, .container{ scroll-margin-top:76px; }
+.logo{
+  font-family:'Sora',sans-serif;
+  font-size:19px;
+  font-weight:700;
+  letter-spacing:-0.01em;
+  display:flex;
+  align-items:center;
+  gap:9px;
+  color:var(--ink);
+}
+.logo .dot{
+  width:9px; height:9px; border-radius:50%;
+  background:var(--primary);
+  box-shadow:0 0 0 4px var(--primary-soft);
+}
+nav .links a{
+  text-decoration:none;
+  color:var(--ink-soft);
+  margin-left:32px;
+  font-size:14.5px;
+  font-family:'Inter',sans-serif;
+  font-weight:500;
+}
+nav .links a:hover{ color:var(--ink); }
+
+/* HERO */
+.hero{
+  background:var(--paper);
+  color:var(--ink);
+  padding:76px 60px 90px;
+  display:grid;
+  grid-template-columns:1.1fr 0.9fr;
+  gap:50px;
+  align-items:center;
+  border-bottom:1px solid var(--line);
+  position:relative;
+  overflow:hidden;
+  background-image:radial-gradient(circle, #dfe2ec 1px, transparent 1px);
+  background-size:22px 22px;
+}
+.hero::before{
+  content:"";
+  position:absolute;
+  top:-160px;
+  right:-120px;
+  width:480px;
+  height:480px;
+  border-radius:50%;
+  background:radial-gradient(circle, rgba(79,70,229,0.16), transparent 70%);
+  filter:blur(10px);
+  pointer-events:none;
+}
+.hero > *{ position:relative; z-index:1; }
+.hero .eyebrow{
+  font-family:'Inter',sans-serif;
+  font-size:13px;
+  color:var(--primary);
+  letter-spacing:0.04em;
+  text-transform:uppercase;
+  margin-bottom:18px;
+  font-weight:700;
+}
+.hero h1{
+  font-family:'Sora',sans-serif;
+  font-size:42px;
+  line-height:1.18;
+  font-weight:700;
+  max-width:560px;
+  letter-spacing:-0.01em;
+}
+.hero p{
+  margin-top:18px;
+  font-size:16.5px;
+  color:var(--ink-soft);
+  max-width:480px;
+}
+
+/* TRUST STRIP */
+.trust-strip{
+  border-bottom:1px solid var(--line);
+  background:#fff;
+}
+.trust-inner{
+  width:88%;
+  max-width:1100px;
+  margin:auto;
+  padding:22px 0;
+  display:flex;
+  gap:36px;
+  flex-wrap:wrap;
+}
+.trust-item{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  font-size:14px;
+  color:var(--ink-soft);
+  font-weight:500;
+}
+.trust-item svg{ width:17px; height:17px; color:var(--primary); flex-shrink:0; }
+
+/* Live feed signature element */
+.feed{
+  background:var(--card);
+  border:1px solid var(--line);
+  border-radius:16px;
+  padding:22px;
+  overflow:hidden;
+  height:260px;
+  position:relative;
+  box-shadow:0 12px 32px rgba(15,23,42,0.06);
+}
+.feed-label{
+  font-family:'JetBrains Mono',monospace;
+  font-size:12px;
+  color:var(--ink-soft);
+  letter-spacing:0.04em;
+  text-transform:uppercase;
+  margin-bottom:14px;
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
+.feed-label .pulse{
+  width:7px; height:7px; border-radius:50%;
+  background:var(--success);
+  animation:pulse 1.6s infinite;
+}
+@keyframes pulse{
+  0%,100%{ opacity:1; }
+  50%{ opacity:0.35; }
+}
+.feed-track{
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+  animation:scrollUp 14s linear infinite;
+}
+@media (prefers-reduced-motion: reduce){
+  .feed-track{ animation:none; }
+  .feed-label .pulse{ animation:none; }
+}
+@keyframes scrollUp{
+  0%{ transform:translateY(0); }
+  100%{ transform:translateY(-50%); }
+}
+.feed-item{
+  background:var(--paper);
+  border:1px solid var(--line);
+  border-radius:10px;
+  padding:12px 14px;
+  font-size:13px;
+  color:var(--ink);
+  display:flex;
+  justify-content:space-between;
+  gap:10px;
+}
+.feed-tag{
+  font-family:'JetBrains Mono',monospace;
+  font-size:11px;
+  font-weight:600;
+  padding:2px 8px;
+  border-radius:20px;
+  white-space:nowrap;
+  height:fit-content;
+}
+.tag-pos{ background:var(--success-soft); color:var(--success); }
+.tag-neg{ background:var(--danger-soft); color:var(--danger); }
+.tag-neu{ background:var(--neutral-soft); color:var(--ink-soft); }
+
+/* SECTIONS (how it works / showcase) */
+.section-wrap{
+  width:88%;
+  max-width:1100px;
+  margin:auto;
+  padding:64px 0 10px;
+}
+.eyebrow{
+  font-family:'Inter',sans-serif;
+  font-size:13px;
+  font-weight:700;
+  letter-spacing:0.04em;
+  text-transform:uppercase;
+}
+.section-wrap .eyebrow{ margin-bottom:14px; color:var(--primary); }
+.section-wrap h2{
+  font-family:'Sora',sans-serif;
+  font-size:28px;
+  font-weight:700;
+  max-width:600px;
+  letter-spacing:-0.01em;
+}
+.section-sub{
+  margin-top:10px;
+  color:var(--ink-soft);
+  font-size:15px;
+  max-width:560px;
+}
+
+.steps{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:22px;
+  margin-top:40px;
+  position:relative;
+}
+.steps::before{
+  content:"";
+  position:absolute;
+  top:24px;
+  left:8%;
+  right:8%;
+  height:0;
+  border-top:2px dashed var(--line);
+  z-index:0;
+}
+.step{
+  background:var(--card);
+  border:1px solid var(--line);
+  border-radius:14px;
+  padding:28px 24px 24px;
+  position:relative;
+  z-index:1;
+  box-shadow:0 4px 16px rgba(15,23,42,0.04);
+  transition:transform .18s ease, box-shadow .18s ease;
+}
+.step:hover{
+  transform:translateY(-4px);
+  box-shadow:0 12px 28px rgba(15,23,42,0.08);
+}
+.step-icon{
+  width:44px;
+  height:44px;
+  border-radius:10px;
+  background:var(--primary);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  margin-bottom:18px;
+}
+.step-icon svg{ width:20px; height:20px; }
+.step-num{
+  position:absolute;
+  top:26px;
+  right:24px;
+  font-family:'JetBrains Mono',monospace;
+  font-size:12px;
+  color:var(--ink-soft);
+}
+.step h3{
+  font-family:'Sora',sans-serif;
+  font-size:16.5px;
+  font-weight:700;
+  margin-bottom:8px;
+}
+.step p{ font-size:14px; color:var(--ink-soft); }
+
+.catalog-pill{
+  font-family:'JetBrains Mono',monospace;
+  font-size:11px;
+  color:var(--success);
+  background:var(--success-soft);
+  padding:3px 9px;
+  border-radius:20px;
+  display:inline-block;
+  margin-bottom:12px;
+}
+
+.swatch{
+  height:52px;
+  border-radius:10px;
+  margin-bottom:16px;
+  position:relative;
+  overflow:hidden;
+}
+.swatch::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:repeating-linear-gradient(135deg, rgba(255,255,255,0.15) 0 6px, transparent 6px 14px);
+}
+.swatch-0{ background:linear-gradient(135deg,#4f46e5,#818cf8); }
+.swatch-1{ background:linear-gradient(135deg,#0f172a,#475569); }
+.swatch-2{ background:linear-gradient(135deg,#16a34a,#86efac); }
+.swatch-3{ background:linear-gradient(135deg,#4338ca,#6366f1); }
+.swatch-4{ background:linear-gradient(135deg,#64748b,#cbd5e1); }
+.swatch-5{ background:linear-gradient(135deg,#312e81,#4f46e5); }
+
+.ribbon{
+  position:absolute;
+  top:18px;
+  right:-1px;
+  background:var(--primary);
+  color:#fff;
+  font-family:'JetBrains Mono',monospace;
+  font-size:10.5px;
+  font-weight:600;
+  letter-spacing:0.03em;
+  padding:4px 12px 4px 14px;
+  border-radius:6px 0 0 6px;
+}
+.rank-badge{
+  position:absolute;
+  top:-10px;
+  left:20px;
+  background:var(--ink);
+  color:#fff;
+  font-family:'JetBrains Mono',monospace;
+  font-size:11px;
+  padding:4px 10px;
+  border-radius:20px;
+}
+
+/* CONTAINER */
+.container{
+  width:88%;
+  max-width:1100px;
+  margin:auto;
+  padding:50px 0 70px;
+}
+
+.card{
+  background:var(--card);
+  padding:34px;
+  border-radius:14px;
+  border:1px solid var(--line);
+  margin-bottom:28px;
+  box-shadow:0 2px 10px rgba(15,23,42,0.03);
+}
+.card h2{
+  font-family:'Sora',sans-serif;
+  font-size:21px;
+  font-weight:700;
+  letter-spacing:-0.01em;
+}
+.card-sub{
+  font-family:'Inter',sans-serif;
+  font-size:14px;
+  color:var(--ink-soft);
+  margin-top:6px;
+}
+
+/* FORM */
+textarea{
+  width:100%;
+  height:140px;
+  padding:18px;
+  margin-top:22px;
+  border-radius:10px;
+  border:1px solid var(--line);
+  background:var(--paper);
+  font-size:15.5px;
+  font-family:'Inter',sans-serif;
+  color:var(--ink);
+  resize:vertical;
+}
+textarea:focus{
+  outline:2px solid var(--primary);
+  outline-offset:1px;
+  background:#fff;
+}
+button{
+  margin-top:20px;
+  background:var(--primary);
+  color:#fff;
+  border:none;
+  padding:14px 28px;
+  border-radius:8px;
+  font-size:15px;
+  font-weight:600;
+  font-family:'Inter',sans-serif;
+  cursor:pointer;
+  box-shadow:0 4px 14px rgba(79,70,229,0.25);
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  transition:background .15s ease, transform .15s ease, box-shadow .15s ease;
+}
+button svg{ width:16px; height:16px; transition:transform .15s ease; }
+button:hover{ background:var(--primary-dark); transform:translateY(-1px); box-shadow:0 6px 18px rgba(79,70,229,0.32); }
+button:hover svg{ transform:translateX(3px); }
+button:active{ transform:translateY(0); }
+button:focus-visible{ outline:3px solid var(--ink); outline-offset:2px; }
+
+/* RESULT */
+.result-row{
+  display:flex;
+  align-items:center;
+  gap:20px;
+  margin-top:22px;
+  flex-wrap:wrap;
+}
+.sentiment-badge{
+  font-family:'Sora',sans-serif;
+  font-size:20px;
+  font-weight:700;
+  padding:10px 20px;
+  border-radius:10px;
+  white-space:nowrap;
+}
+.sentiment-pos{ background:var(--success-soft); color:var(--success); }
+.sentiment-neg{ background:var(--danger-soft); color:var(--danger); }
+.sentiment-neu{ background:var(--neutral-soft); color:var(--ink-soft); }
+.review-echo{
+  border-left:3px solid var(--line);
+  padding-left:16px;
+  font-size:15px;
+  color:var(--ink-soft);
+  font-style:italic;
+  flex:1;
+  min-width:220px;
+}
+
+/* PRODUCTS */
+.products{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+  gap:22px;
+}
+.product{
+  background:var(--card);
+  border:1px solid var(--line);
+  border-radius:12px;
+  padding:22px;
+  position:relative;
+  overflow:hidden;
+  box-shadow:0 2px 10px rgba(15,23,42,0.03);
+  transition:transform .18s ease, box-shadow .18s ease;
+}
+.product:hover{
+  transform:translateY(-3px);
+  box-shadow:0 12px 26px rgba(15,23,42,0.08);
+}
+.product h3{
+  font-family:'Sora',sans-serif;
+  font-size:16.5px;
+  font-weight:700;
+  margin-bottom:8px;
+}
+.rating{
+  color:#d97706;
+  font-size:14px;
+  font-family:'JetBrains Mono',monospace;
+  margin-bottom:10px;
+}
+.product-text{
+  font-size:13.5px;
+  color:var(--ink-soft);
+  margin-bottom:16px;
+}
+.why{
+  border-top:1px solid var(--line);
+  margin-top:4px;
+  padding-top:14px;
+}
+.why-label{
+  font-family:'Inter',sans-serif;
+  font-size:10.5px;
+  font-weight:700;
+  letter-spacing:0.06em;
+  text-transform:uppercase;
+  color:var(--ink-soft);
+  display:block;
+  margin-bottom:6px;
+}
+.why-chip{
+  display:inline-block;
+  background:var(--primary-soft);
+  color:var(--primary-dark);
+  font-family:'Inter',sans-serif;
+  font-size:12.5px;
+  font-weight:500;
+  line-height:1.5;
+  padding:8px 12px;
+  border-radius:8px;
+}
+
+footer{
+  background:var(--paper);
+  color:var(--ink-soft);
+  padding:22px;
+  text-align:center;
+  font-family:'Inter',sans-serif;
+  font-size:13.5px;
+  border-top:1px solid var(--line);
+}
+
+@media(max-width:850px){
+  nav,.hero{ padding:24px; }
+  .hero{ grid-template-columns:1fr; }
+  .hero h1{ font-size:30px; }
+  .feed{ height:200px; }
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="logo"><span class="dot"></span>SmartShop AI</div>
+  <div class="links">
+    <a href="#home">Home</a>
+    <a href="#showcase">Products</a>
+    <a href="#predict">Predict</a>
+  </div>
+</nav>
+
+<section class="hero" id="home">
+  <div>
+    <div class="eyebrow">Review-driven recommendations</div>
+    <h1>Read the review. Understand the shopper. Recommend with a reason.</h1>
+    <p>Paste a customer review and the model reads its sentiment, then matches it against real product text — showing exactly which words drove each recommendation.</p>
+  </div>
+  <div class="feed">
+    <div class="feed-label"><span class="pulse"></span>live signal</div>
+    <div class="feed-track">
+      <div class="feed-item"><span>"Comfortable, held up after months of daily wear"</span><span class="feed-tag tag-pos">positive</span></div>
+      <div class="feed-item"><span>"Stopped working within a week, poor build"</span><span class="feed-tag tag-neg">negative</span></div>
+      <div class="feed-item"><span>"Does the job, nothing special about it"</span><span class="feed-tag tag-neu">neutral</span></div>
+      <div class="feed-item"><span>"Fits true to size, great for the price"</span><span class="feed-tag tag-pos">positive</span></div>
+      <div class="feed-item"><span>"Packaging was damaged, item scratched"</span><span class="feed-tag tag-neg">negative</span></div>
+      <div class="feed-item"><span>"Comfortable, held up after months of daily wear"</span><span class="feed-tag tag-pos">positive</span></div>
+      <div class="feed-item"><span>"Stopped working within a week, poor build"</span><span class="feed-tag tag-neg">negative</span></div>
+      <div class="feed-item"><span>"Does the job, nothing special about it"</span><span class="feed-tag tag-neu">neutral</span></div>
+      <div class="feed-item"><span>"Fits true to size, great for the price"</span><span class="feed-tag tag-pos">positive</span></div>
+      <div class="feed-item"><span>"Packaging was damaged, item scratched"</span><span class="feed-tag tag-neg">negative</span></div>
+    </div>
+  </div>
+</section>
+
+<div class="trust-strip">
+  <div class="trust-inner">
+    <div class="trust-item">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 12.5l2 2 4-4.5"/><circle cx="12" cy="12" r="9"/></svg>
+      Explainable, not a black box
+    </div>
+    <div class="trust-item">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19V6a2 2 0 0 1 2-2h9l5 5v10a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2z"/><path d="M9 9h6M9 13h6M9 17h3"/></svg>
+      Matched against real catalog text
+    </div>
+    <div class="trust-item">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg>
+      Instant sentiment scoring
+    </div>
+  </div>
+</div>
+
+<section class="section-wrap">
+  <div class="eyebrow">How it works</div>
+  <h2>From review to recommendation in three steps</h2>
+  <p class="section-sub">No black box — every recommendation traces back to something you actually wrote.</p>
+  <div class="steps">
+    <div class="step">
+      <div class="step-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M4 4h11l5 5v11a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1z"/>
+          <path d="M14 4v5h5"/>
+          <path d="M8 13h8M8 17h5"/>
+        </svg>
+      </div>
+      <div class="step-num">01</div>
+      <h3>You paste a review</h3>
+      <p>Real customer language, typos and all — no formatting required.</p>
+    </div>
+    <div class="step">
+      <div class="step-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="10.5" cy="10.5" r="6.5"/>
+          <path d="M20 20l-4.7-4.7"/>
+        </svg>
+      </div>
+      <div class="step-num">02</div>
+      <h3>The model reads it</h3>
+      <p>A trained classifier scores the tone, while a separate matcher reads the vocabulary against the catalog.</p>
+    </div>
+    <div class="step">
+      <div class="step-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M3 7h7l2-3h4l2 3h3v13a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V7z"/>
+          <path d="M9 12.5l2 2 4-4.5"/>
+        </svg>
+      </div>
+      <div class="step-num">03</div>
+      <h3>You get matched products</h3>
+      <p>Ranked results, each with the specific words that connected it to your review.</p>
+    </div>
+  </div>
+</section>
+
+<section class="section-wrap" id="showcase">
+  <div class="eyebrow">Catalog highlights</div>
+  <h2>Top-rated in the catalog</h2>
+  <p class="section-sub">A preview of what the matcher pulls recommendations from.</p>
+  <div class="products" style="margin-top:32px;">
+    {% for product in trending %}
+    <div class="product">
+      <div class="ribbon">TOP RATED</div>
+      <div class="swatch swatch-{{ loop.index0 % 6 }}"></div>
+      <h3>{{product[0]}}</h3>
+      <div class="rating">★ {{product[1]}}</div>
+      <p class="product-text">{{product[2]}}</p>
+    </div>
+    {% endfor %}
+  </div>
+</section>
+
+<div class="container" id="predict">
+
+  <div class="card">
+    <h2>Enter a customer review</h2>
+    <div class="card-sub">the model reads tone and vocabulary, then matches both against the product catalog</div>
+    <form method="POST" action="/">
+      <textarea name="review" placeholder="Example: This product is amazing and comfortable, fits true to size..." required>{{review}}</textarea>
+      <button type="submit" id="analyze-btn">
+        Run analysis
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      </button>
+    </form>
+  </div>
+
+  {% if sentiment %}
+  <div class="card" id="results">
+    <h2>Prediction result</h2>
+    <div class="result-row">
+      <div class="sentiment-badge
+        {% if 'Positive' in sentiment %}sentiment-pos
+        {% elif 'Negative' in sentiment %}sentiment-neg
+        {% else %}sentiment-neu{% endif %}">{{sentiment}}</div>
+      <div class="review-echo">“{{review}}”</div>
+    </div>
+  </div>
+  {% endif %}
+
+  {% if recommendations %}
+  <div class="card">
+    <h2>Recommended products</h2>
+    <div class="card-sub">ranked by how closely their listed features match the language in your review</div>
+    <br>
+    <div class="products" style="margin-top:18px;">
+      {% for product in recommendations %}
+      <div class="product">
+        <div class="rank-badge">#{{ loop.index }} match</div>
+        <div class="swatch swatch-{{ loop.index0 % 6 }}"></div>
+        <h3>{{product[0]}}</h3>
+        <div class="rating">★ {{product[1]}}</div>
+        <p class="product-text">{{product[2]}}</p>
+        <div class="why">
+          <span class="why-label">Why this match</span>
+          <span class="why-chip">{{product[3]}}</span>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+  {% endif %}
+
+</div>
+
+<footer>AI-powered ecommerce recommendation system</footer>
+
+<script>
+  // Show a loading state while the (full page) analysis request is in flight,
+  // so clicking the button gives immediate feedback instead of feeling frozen.
+  var form = document.querySelector('form');
+  var btn = document.getElementById('analyze-btn');
+  if (form && btn) {
+    form.addEventListener('submit', function () {
+      btn.disabled = true;
+      btn.textContent = 'Analyzing…';
+    });
+  }
+
+  // The results land further down the page after the reload — jump straight
+  // to them instead of leaving the user on the hero and making them scroll.
+  window.addEventListener('DOMContentLoaded', function () {
+    var results = document.getElementById('results');
+    if (results) {
+      results.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  });
+</script>
+
+</body>
+</html>
